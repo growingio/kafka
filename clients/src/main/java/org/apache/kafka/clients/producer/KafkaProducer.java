@@ -349,6 +349,8 @@ public class KafkaProducer<K,V> implements Producer<K,V> {
             if (callback != null)
                 callback.onCompletion(null, e);
             this.errors.record();
+            // log the kafka messages when sending failure
+            log.error("Unsent message:" + record, e);
             return new FutureFailure(e);
         } catch (InterruptedException e) {
             this.errors.record();

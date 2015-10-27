@@ -95,8 +95,15 @@ public final class ProducerRecord<K, V> {
 
     @Override
     public String toString() {
-        String key = this.key == null ? "null" : this.key.toString();
-        String value = this.value == null ? "null" : this.value.toString();
-        return "ProducerRecord(topic=" + topic + ", partition=" + partition + ", key=" + key + ", value=" + value;
+        String key = null, value = null;
+        if (this.key instanceof byte[])
+            key = new String((byte[])this.key);
+        else if (this.key instanceof String)
+            key = (String)this.key;
+        if (this.value instanceof byte[])
+            value = new String((byte[])this.value);
+        else if (this.value instanceof String)
+            value = (String)this.value;
+        return "ProducerRecord(topic=" + topic + ", partition=" + partition + ", key=" + key + ", value=" + value + ")";
     }
 }
